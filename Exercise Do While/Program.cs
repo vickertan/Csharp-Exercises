@@ -31,24 +31,53 @@
 
 //  Example 2
 
-string? readResult;
-bool validInput = false;
+// string? readResult;
+// bool validInput = false;
 
-do
+// do
+// {
+//   Console.WriteLine("Enter your role name (Administrator, Manager, or User)");
+//   readResult = Console.ReadLine();
+//   string processedResult;
+
+//   if (readResult != null)
+//   {
+//     processedResult = readResult.Trim().ToLower();
+
+//     if (processedResult == "administrator" || processedResult == "manager" || processedResult == "user")
+//       validInput = true;
+//     else
+//       Console.WriteLine($"The role name that you entered, \"{readResult}\" is not valid.");
+//   }
+// } while (!validInput);
+
+// Console.WriteLine($"Your input value ({readResult}) has been accepted.");
+
+// Example 3
+
+string[] myStrings = ["I like pizza. I like roast chicken. I like salad.", "I like all three of the menu choices."];
+int stringsCount = myStrings.Length;
+
+string myString = "";
+int periodLocation = 0;
+
+for (int i = 0; i < stringsCount; i++)
 {
-  Console.WriteLine("Enter your role name (Administrator, Manager, or User)");
-  readResult = Console.ReadLine();
-  string processedResult;
+  myString = myStrings[i];
+  periodLocation = myString.IndexOf('.');
 
-  if (readResult != null)
+  string mySentence;
+
+  while (periodLocation != -1)
   {
-    processedResult = readResult.Trim().ToLower();
+    mySentence = myString.Remove(periodLocation); // first sentence is the string value to the left of period location
+    myString = myString.Substring(periodLocation + 1); // the remainder of myString is the value to the right of period location
+    myString = myString.TrimStart(); // remove any leading white-space from myString
+    periodLocation = myString.IndexOf('.'); // update the period location for the new remainder string
 
-    if (processedResult == "administrator" || processedResult == "manager" || processedResult == "user")
-      validInput = true;
-    else
-      Console.WriteLine($"The role name that you entered, \"{readResult}\" is not valid.");
+    Console.WriteLine(mySentence);
   }
-} while (!validInput);
 
-Console.WriteLine($"Your input value ({readResult}) has been accepted.");
+  mySentence = myString.Trim();
+  Console.WriteLine(mySentence);
+}
