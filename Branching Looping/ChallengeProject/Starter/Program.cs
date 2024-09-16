@@ -292,6 +292,7 @@ do
         // Ensure only assigned data in ourAnimals array that has not been assigned age & physical description are prompted
         if (ourAnimals[i, 0] != "ID #: ")
         {
+          // Add logic to ensure age field is filled by user
           if (ourAnimals[i, 2] == "Age: ?")
           {
             do
@@ -308,11 +309,25 @@ do
             ourAnimals[i, 2] = "Age: " + animalAge;
           }
 
+          // Add logic to ensure physical description is filled by user
+          validEntry = false;
           if (ourAnimals[i, 4] == "Physical description: tbd" || ourAnimals[i, 4] == "Physical description: ")
           {
-            Console.WriteLine($"Enter a physical description for {ourAnimals[i, 0]} (size, color, gender, weight, housebroken)");
+            do
+            {
+              Console.WriteLine($"Enter a physical description for {ourAnimals[i, 0]} (size, color, gender, weight, housebroken)");
+              readResult = Console.ReadLine();
+              if (readResult != null)
+              {
+                animalPhysicalDescription = readResult.Trim();
+                if (animalPhysicalDescription != "" && animalPhysicalDescription.ToLower() != "tbd")
+                {
+                  validEntry = true;
+                }
+              }
+            } while (!validEntry);
 
-            // Add logic to ensure physical description are filled by user
+            ourAnimals[i, 4] = "Physical description: " + animalPhysicalDescription;
           }
         }
       }
