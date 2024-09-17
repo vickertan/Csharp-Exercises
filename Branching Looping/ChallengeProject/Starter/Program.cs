@@ -289,12 +289,13 @@ do
       // Ensure animal ages and physical descriptions are complete
       for (int i = 0; i < maxPets; i++)
       {
-        // Ensure only assigned data in ourAnimals array that has not been assigned age & physical description are prompted
+        // Skip over any unassigned data in ourAnimals[]
         if (ourAnimals[i, 0] != "ID #: ")
         {
-          // Add logic to ensure age field is filled by user
+          // This logic ensure age field is filled by user
           if (ourAnimals[i, 2] == "Age: ?")
           {
+            validEntry = false;
             do
             {
               Console.WriteLine($"Enter an age for {ourAnimals[i, 0]}");
@@ -309,10 +310,10 @@ do
             ourAnimals[i, 2] = "Age: " + animalAge;
           }
 
-          // Add logic to ensure physical description is filled by user
-          validEntry = false;
+          // this logic ensure physical description is filled by user
           if (ourAnimals[i, 4] == "Physical description: tbd" || ourAnimals[i, 4] == "Physical description: ")
           {
+            validEntry = false;
             do
             {
               Console.WriteLine($"Enter a physical description for {ourAnimals[i, 0]} (size, color, gender, weight, housebroken)");
@@ -338,7 +339,55 @@ do
 
     case "4":
       // Ensure animal nicknames and personality descriptions are complete
-      Console.WriteLine("Challenge Project - please check back soon to see progress.");
+      for (int i = 0; i < maxPets; i++)
+      {
+        // Skip over any unassigned data in ourAnimals[]
+        if (ourAnimals[i, 0] != "ID #: ")
+        {
+          // This logic ensures animal nickname field is filled by user
+          if (ourAnimals[i, 3] == "Nickname: " || ourAnimals[i, 3] == "Nickname: tbd")
+          {
+            validEntry = false;
+            do
+            {
+              Console.WriteLine($"Enter a nickname for {ourAnimals[i, 0]}");
+              readResult = Console.ReadLine();
+              if (readResult != null)
+              {
+                animalNickname = readResult.Trim();
+                if (animalNickname != "" && animalNickname.ToLower() != "tbd")
+                {
+                  validEntry = true;
+                }
+              }
+            } while (!validEntry);
+
+            ourAnimals[i, 3] = "Nickname: " + animalNickname;
+          }
+
+          // This logic ensure animal personality decriptions field is filled by user
+          if (ourAnimals[i, 5] == "Personality: " || ourAnimals[i, 5] == "Personality: tbd")
+          {
+            validEntry = false;
+            do
+            {
+              Console.WriteLine("Enter a personality description for ID #: c4 (likes or dislikes, tricks, energy level)");
+              readResult = Console.ReadLine();
+              if (readResult != null)
+              {
+                animalPersonalityDescription = readResult.Trim();
+                if (animalPersonalityDescription != "" && animalPersonalityDescription != "tbd")
+                {
+                  validEntry = true;
+                }
+              }
+            } while (!validEntry);
+
+            ourAnimals[i, 5] = "Personality: " + animalPersonalityDescription;
+          }
+        }
+      }
+      Console.WriteLine("Nickname and personality description fields are complete for all of our friends. ");
       Console.WriteLine("Press the Enter key to continue.");
       readResult = Console.ReadLine();
       break;
