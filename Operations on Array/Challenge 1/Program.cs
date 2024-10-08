@@ -1,4 +1,4 @@
-﻿// Challenge to reverse words in sentence
+﻿// Challenge to reverse words in sentence (Challenge 1)
 string pangram = "The quick brown fox jumps over the lazy dog";
 
 // Create an array of words in pangram
