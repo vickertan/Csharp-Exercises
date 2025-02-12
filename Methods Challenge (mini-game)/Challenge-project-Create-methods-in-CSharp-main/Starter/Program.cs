@@ -15,6 +15,7 @@ int foodX = 0;
 int foodY = 0;
 
 // Available player and food strings
+// [neutral, happy, zonk]
 string[] states = { "('-')", "(^-^)", "(X_X)" };
 string[] foods = { "@@@@@", "$$$$$", "#####" };
 
@@ -27,18 +28,47 @@ int food = 0;
 InitializeGame();
 while (!shouldExit)
 {
-  if (TerminalResized())
+  if (TerminalIsResized())
   {
     Console.Clear();
     Console.WriteLine("Console was resized. Program exiting.");
     shouldExit = true;
     break;
   }
-  Move();
+  else
+  {
+    if (FoodIsConsumed())
+    {
+      ChangePlayer();
+      ShowFood();
+    }
+
+    if (PlayerIsSick())
+      FreezePlayer();
+    else if (PlayerIsHappy())
+      Move(speed: 3);
+    else
+      Move();
+  }
+}
+
+bool PlayerIsHappy()
+{
+  return player == states[1];
+}
+
+bool PlayerIsSick()
+{
+  return player == states[2];
+}
+
+bool FoodIsConsumed()
+{
+  return playerX == foodX && playerY == foodY;
 }
 
 // Returns true if the Terminal was resized 
-bool TerminalResized()
+bool TerminalIsResized()
 {
   return height != Console.WindowHeight - 1 || width != Console.WindowWidth - 5;
 }
@@ -74,52 +104,31 @@ void FreezePlayer()
 }
 
 // Reads directional input from the Console and moves the player
-void Move(bool strict = false)
+void Move(bool StrictKey = false, int speed = 1)
 {
   int lastX = playerX;
   int lastY = playerY;
 
-  if (strict)
+  switch (Console.ReadKey(true).Key)
   {
-    switch (Console.ReadKey(true).Key)
-    {
-      case ConsoleKey.UpArrow:
-        playerY--;
-        break;
-      case ConsoleKey.DownArrow:
-        playerY++;
-        break;
-      case ConsoleKey.LeftArrow:
-        playerX--;
-        break;
-      case ConsoleKey.RightArrow:
-        playerX++;
-        break;
-      default:
-        shouldExit = true;
-        break;
-    }
-  }
-  else
-  {
-    switch (Console.ReadKey(true).Key)
-    {
-      case ConsoleKey.UpArrow:
-        playerY--;
-        break;
-      case ConsoleKey.DownArrow:
-        playerY++;
-        break;
-      case ConsoleKey.LeftArrow:
-        playerX--;
-        break;
-      case ConsoleKey.RightArrow:
-        playerX++;
-        break;
-      case ConsoleKey.Escape:
-        shouldExit = true;
-        break;
-    }
+    case ConsoleKey.UpArrow:
+      playerY--;
+      break;
+    case ConsoleKey.DownArrow:
+      playerY++;
+      break;
+    case ConsoleKey.LeftArrow:
+      playerX -= speed;
+      break;
+    case ConsoleKey.RightArrow:
+      playerX += speed;
+      break;
+    case ConsoleKey.Escape:
+      shouldExit = true;
+      break;
+    default:
+      shouldExit = StrictKey;
+      break;
   }
 
   // Clear the characters at the previous position
