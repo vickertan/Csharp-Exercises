@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "coreclr",
+      "request": "launch",
+      "name": "Launch .NET Core Console App",
+      "program": "${workspaceFolder}/bin/Debug/net8.0/Starter.dll",
+      "preLaunchTask": "dotnet: build",
+      "console": "integratedTerminal" // <-- This opens an external console
+    }
+  ]
+}
